@@ -1,0 +1,133 @@
+// ==UserScript==
+// @name         Nebulous.io Super Dangerous Player x100 (Invisible for 10 Minutes)
+// @match        https://nebulous.io/*
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    // دالة لتكبير حجم اللاعب بشكل هائل (100 مرة)
+    function enlargePlayer() {
+        let player = document.querySelector(".player");
+        if (player) {
+            player.style.transform = 'scale(100)'; // زيادة الحجم 100 مرة ليصبح اللاعب عملاقًا جدًا
+            player.style.zIndex = "9999"; // وضعه في الأعلى ليظهر أمام اللاعبين الآخرين
+        }
+    }
+
+    // دالة لزيادة سرعة اللاعب بشكل غير محدود
+    function increaseSpeed() {
+        let player = document.querySelector(".player");
+        if (player) {
+            player.style.transition = "transform 0.05s ease-in-out"; // سرعة حركة غير محدودة
+        }
+    }
+
+    // دالة لإضافة هالة قوية جدًا حول اللاعب
+    function addAuraEffect() {
+        let player = document.querySelector(".player");
+        if (player && !player.classList.contains("dangerous-aura")) {
+            player.classList.add("dangerous-aura");
+            player.style.boxShadow = "0 0 50px 25px rgba(255, 0, 0, 1)"; // تأثير هالة حمراء قوية جدًا
+            player.style.filter = "blur(0px)"; // التأكد من وضوح اللاعب في الهالة
+        }
+    }
+
+    // دالة لإخفاء أضرار اللاعب ومنع التفجير (100% لا يتأثر)
+    function hideDamageIndicators() {
+        let damageIndicator = document.querySelector(".damage-indicator");
+        if (damageIndicator) {
+            damageIndicator.style.display = 'none'; // إخفاء مؤشرات الأضرار
+        }
+        // تعطيل أي تأثيرات تفجيرية أو أضرار عند الاصطدام
+        let player = document.querySelector(".player");
+        if (player) {
+            player.style.opacity = '1';  // التأكد من أن اللاعب لا يتأثر بالأضرار
+            player.style.transition = 'none';  // تعطيل أي تأثيرات تحريك غير مرغوب فيها عند التعرض للضرر
+        }
+    }
+
+    // دالة لإضافة تأثيرات نارية أو كهربائية حول اللاعب
+    function addFireAndElectricAura() {
+        let player = document.querySelector(".player");
+        if (player && !player.classList.contains("fire-electric-aura")) {
+            player.classList.add("fire-electric-aura");
+            player.style.boxShadow = "0 0 100px 40px rgba(255, 165, 0, 0.7), 0 0 100px 40px rgba(0, 0, 255, 0.7)"; // تأثير نار وكهرباء معًا
+        }
+    }
+
+    // دالة لإضافة موجات صدمية تدمر كل شيء حوله
+    function addShockwaveEffect() {
+        let player = document.querySelector(".player");
+        if (player) {
+            let shockwave = document.createElement("div");
+            shockwave.style.position = "absolute";
+            shockwave.style.top = `${player.offsetTop}px`;
+            shockwave.style.left = `${player.offsetLeft}px`;
+            shockwave.style.width = "500px";
+            shockwave.style.height = "500px";
+            shockwave.style.borderRadius = "50%";
+            shockwave.style.background = "rgba(255, 0, 0, 0.5)";
+            shockwave.style.transform = "scale(0)";
+            shockwave.style.animation = "shockwaveEffect 0.5s ease-out";
+            document.body.appendChild(shockwave);
+
+            setTimeout(() => {
+                shockwave.remove();
+            }, 500);
+        }
+    }
+
+    // إضافة تأثير CSS لموجات الصدمة
+    const style = document.createElement('style');
+    style.innerHTML = `
+        @keyframes shockwaveEffect {
+            0% { transform: scale(0); }
+            100% { transform: scale(2); }
+        }
+    `;
+    document.head.appendChild(style);
+
+    // دالة لإخفاء اللاعب ليصبح غير مرئي لمدة طويلة
+    function makePlayerInvisible() {
+        let player = document.querySelector(".player");
+        if (player) {
+            player.style.opacity = '0'; // إخفاء اللاعب تمامًا
+            player.style.pointerEvents = 'none'; // تعطيل التفاعل مع اللاعب
+        }
+    }
+
+    // دالة لإرجاع اللاعب إلى حالته الأصلية بعد إخفائه
+    function restorePlayerVisibility() {
+        let player = document.querySelector(".player");
+        if (player) {
+            player.style.opacity = '1'; // استعادة الظهور
+            player.style.pointerEvents = 'auto'; // تمكين التفاعل مع اللاعب
+        }
+    }
+
+    // جعل اللاعب غير مرئي لمدة 10 دقائق (600000 ملي ثانية)
+    setTimeout(() => {
+        makePlayerInvisible(); // إخفاء اللاعب
+        console.log("⚠️ اللاعب أصبح غير مرئي لمدة 10 دقائق.");
+    }, 100); // تنفيذ الاختفاء بعد 100 ملي ثانية (فور تحميل السكربت)
+
+    // بعد مرور 10 دقائق، استعادة ظهور اللاعب
+    setTimeout(() => {
+        restorePlayerVisibility(); // إعادة ظهور اللاعب
+        console.log("✅ اللاعب استعاد رؤيته بعد 10 دقائق.");
+    }, 600000); // بعد 600000 ملي ثانية (10 دقائق)
+
+    // التحديث بشكل دوري
+    setInterval(() => {
+        enlargePlayer();
+        increaseSpeed();
+        addAuraEffect();
+        hideDamageIndicators();  // إخفاء جميع الأضرار
+        addFireAndElectricAura(); // إضافة الهالة النارية والكهربائية
+        addShockwaveEffect(); // إضافة تأثير الموجات الصدمية
+    }, 100); // تحديث كل 100ms
+
+    console.log("✅ Super Dangerous Player x100 Loaded! اللاعب أصبح عملاقًا 100 مرة, لا يتأثر بأي ضرر, ويملك طاقة نارية وكهربائية.");
+})();
